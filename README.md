@@ -1,0 +1,2 @@
+# SimpleKalman
+A VERY simplified version of what I hope to implement with my Kalman_PositionAndVelocity Library. That project suffered from project creep and has become more generalized and memory intensive than intended. This simple Arduino Library is meant for the very specific use case of acting as a Kalman filter to perform sensor fusion between GPS and Accelerometer data for use in a speedometer project.
