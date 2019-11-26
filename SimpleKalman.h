@@ -22,8 +22,8 @@ class SimpleKalman{
     void setSensorError(float err_r);
     void setTranslation(float h);
 
-    void predictEstimate(double u, int dt);
-    void updateEstimate(doube pos, double velocity, int dt);
+    void predictEstimate(double u, double dt);
+    void updateEstimate(double pos, double velocity, double dt);
 
     double getPosition();
     double getVelocity();
@@ -33,9 +33,12 @@ class SimpleKalman{
     double _lastVelocity;
     double _position;
     double _velocity;
+    double _estimatedPosition;
+    double _estimatedVelocity;
 
     float _processErrorQ;
     float _sensorErrorR;
+    float _translationH;
 
     float _P[2][2]; //error covariance matrix;
 
