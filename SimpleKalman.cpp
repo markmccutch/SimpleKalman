@@ -85,8 +85,8 @@ void SimpleKalman::predictEstimate(double u, double dt){
 void SimpleKalman::updateEstimate(double pos, double velocity, double dt){
 
   //Observation Step --------------------------
-  double _innovationPosition = pos - _position;
-  double _innovationVelocity = velocity -_velocity;
+  double _positionInnovation = pos - _position;
+  double _velocityInnovation = velocity -_velocity;
 
   double _S[2][2] = {{0,0},{0,0}};
   _S[0][0] = _P[0][0] + _sensorErrorR;
@@ -96,6 +96,14 @@ void SimpleKalman::updateEstimate(double pos, double velocity, double dt){
 
   //Kalman Gain
   double _K[2][2] = {{0,0},{0,0}};
-  _K[0,0] = P[0][0]*_
+  //(P)(S^-1) expanded
+  _K[0][0] = (_P[0][0]*_S[1][1] - _P[0][1]*_S[1][0] )*( 1/( (_S[0][0]*_S[1][1])-(_S[0][1]*S[1][0]) ) );
+  _K[0][1] = (-1*_P[0][0]*_S[0][1] + _P[0][1]*_S[0][0] )*( 1/( (_S[0][0]*_S[1][1])-(_S[0][1]*S[1][0]) ) );
+  _K[1][0] = (_P[1][0]*_S[1][1] - P[1][1]*_S[1][0] )*( 1/( (_S[0][0]*_S[1][1])-(_S[0][1]*S[1][0]) ) );
+  _K[1][1] = (-1*_P[1][0]*_S[0][1] + _P[1][1]*_S[0][0] )*( 1/( (_S[0][0]*_S[1][1])-(_S[0][1]*S[1][0]) ) );
+
+  //State Update
+  _estimatedPosition = _position + (_K[0][0]*_positionInnovation + _K[0][1]*_velocityInnovation);
+  _estimatedVelocity = _velocity + (_K[1][0]*_positionInnovation + _K[1][1]*_velocityInnovation);
 
 };
