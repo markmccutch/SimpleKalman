@@ -64,7 +64,10 @@ double SimpleKalman::getVelocity(){
 
 //Calculations ---------------------
 
-void SimpleKalman::predictEstimate(double u, double dt){
+void SimpleKalman::predictEstimate(double u, double t1){
+  _time1 = t1; //time of accelerometer sample
+  double dt = _time2 - _time1; //time since previous location update sample
+
   _lastPosition = _position;
   _lastVelocity = _velocity;
   //Predict xhat
@@ -82,7 +85,13 @@ void SimpleKalman::predictEstimate(double u, double dt){
 };
 
 
-void SimpleKalman::updateEstimate(double pos, double velocity, double dt){
+void SimpleKalman::updateEstimate(double pos, double t2){
+
+  //input processing step
+  double dt = t2 - _time2; //Delta T from location sample before this
+  _time2 = t2; //set new location sample timestamp
+
+  double velocity = (_estimatedPosition - pos) / dt; //calculate avg V
 
   //Observation Step --------------------------
   double _positionInnovation = pos - _position;

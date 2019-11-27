@@ -22,13 +22,16 @@ class SimpleKalman{
     void setSensorError(float err_r);
     void setTranslation(float h);
 
-    void predictEstimate(double u, double dt);
-    void updateEstimate(double pos, double velocity, double dt);
+    void predictEstimate(double u, double t1);
+    void updateEstimate(double pos, double velocity, double t2);
 
     double getPosition();
     double getVelocity();
 
   private:
+    double _time1;
+    double _time2;
+
     double _lastPosition;
     double _lastVelocity;
     double _position;
