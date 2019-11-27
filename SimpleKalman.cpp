@@ -1,6 +1,6 @@
 
 #include "SimpleKalman.h"
-
+#inlcude "math.h"
 
 //Constructor -------------------
 SimpleKalman::SimpleKalman() {
@@ -11,6 +11,9 @@ SimpleKalman::SimpleKalman() {
   _estimatedPosition = 0;
   _estimatedVelocity = 0;
 
+// Covariance, Variance, and Error estimates
+//are preset to specifications roughly suitable for my project,
+//tuning through "Setters" is encourages
   _processErrorQ = 0.03;
   _sensorErrorR = 0.1;
   _translationH = 1;
@@ -22,11 +25,28 @@ SimpleKalman::SimpleKalman() {
 
 };
 
+//Util
+//return a delta distance in meters from two coordinates
+float SimpleKalman::GPStoM(float lon1, float lon2, float lat1, float lat2) {
+  float dlon = lon2 - lon1;
+  float dlat = lat2 - lat1;
+  float a = square(sin(dlat*0.5)) + cos(lat1)*cos(lat2)*square(sin(dlon*0.5));
+  float c = 2 * atan2(sqrt(a),sqrt(1-a));
+  float d = EARTH_RADIUS * c /1000;
+  return d;
+
+};
+
+float SimpleKalman::mpermillis_to_ms(float m_millis){
+  float ms = m_millis * 1000;
+};
+
 
 //Setters ---------------------
 
 void SimpleKalman::setPosition(double pos) {
-  this->_position = pos;
+  this->_initial_pos = pos;
+  //this->_position = pos;
 };
 
 void SimpleKalman::setVelocity(double velocity){
