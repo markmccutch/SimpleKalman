@@ -23,7 +23,7 @@ class SimpleKalman{
     void setTranslation(float h);
 
     void predictEstimate(double u, double t1);
-    void updateEstimate(double pos, double velocity, double t2);
+    void updateEstimate(double pos, double t2);
 
     double getPosition();
     double getVelocity();
