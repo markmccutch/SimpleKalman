@@ -46,6 +46,7 @@ float SimpleKalman::mpermillis_to_ms(float m_millis){
 
 void SimpleKalman::setPosition(double pos) {
   this->_initial_pos = pos;
+
   //this->_position = pos;
 };
 
